@@ -1,6 +1,9 @@
 package main
 
 import (
+	"io"
+	"os"
+	"strings"
 	"testing"
 )
 
@@ -27,5 +30,39 @@ func Test_isPrime(t *testing.T) {
 		if e.expectedMsg != msg {
 			t.Errorf("%s: expected [%s], but got [%s]", e.name, e.expectedMsg, msg)
 		}
+	}
+}
+
+func Test_prompt(t *testing.T) {
+	oldOut := os.Stdout
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+
+	prompt()
+	w.Close()
+
+	os.Stdout = oldOut
+
+	out, _ := io.ReadAll(r)
+
+	if string(out) != "-> " {
+		t.Errorf("Incorrect promt, got [%s]", string(out))
+	}
+}
+
+func Test_intro(t *testing.T) {
+	oldOut := os.Stdout
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+
+	intro()
+	w.Close()
+
+	os.Stdout = oldOut
+
+	out, _ := io.ReadAll(r)
+
+	if !strings.Contains(string(out), "Enter a whole number, and we'll tell you if it is prime or not. Enter q to quit.") {
+		t.Error("Wrong message displayed, got: []", string(out))
 	}
 }
