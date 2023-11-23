@@ -12,5 +12,6 @@ func (app *application) routes() http.Handler {
 
 	mux.Use(middleware.Recoverer)
 
+	mux.Get("/", app.Home)
 	return mux
 }
