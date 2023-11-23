@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"io"
 	"os"
 	"strings"
@@ -64,5 +65,31 @@ func Test_intro(t *testing.T) {
 
 	if !strings.Contains(string(out), "Enter a whole number, and we'll tell you if it is prime or not. Enter q to quit.") {
 		t.Error("Wrong message displayed, got: []", string(out))
+	}
+}
+
+func Test_checkNumbers(t *testing.T) {
+	checkNumberTests := []struct {
+		input         string
+		expectedMsg   string
+		expectedQuits bool
+	}{
+		{"q", "", true},
+		{"foo", "foo is not a number!", false},
+		{"0", "0 is not prime by definition!", false},
+		{"1", "1 is not prime by definition!", false},
+		{"7", "7 is a prime number!", false},
+		{"-1", "Negative numbers are not prime by definition!", false},
+	}
+
+	for _, e := range checkNumberTests {
+		input := strings.NewReader(e.input)
+		reader := bufio.NewScanner(input)
+
+		actualResult, wantsToQuit := checkNumbers(reader)
+
+		if actualResult != e.expectedMsg || e.expectedQuits != wantsToQuit {
+			t.Error(actualResult)
+		}
 	}
 }
