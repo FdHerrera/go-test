@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"io"
 	"os"
 	"strings"
@@ -92,4 +93,17 @@ func Test_checkNumbers(t *testing.T) {
 			t.Error(actualResult)
 		}
 	}
+}
+
+func Test_readUserInput(t *testing.T) {
+	doneChan := make(chan bool)
+
+	var in bytes.Buffer
+
+	in.Write([]byte("1\nq\n"))
+
+	go readUserInput(&in, doneChan)
+
+	<-doneChan
+	close(doneChan)
 }
