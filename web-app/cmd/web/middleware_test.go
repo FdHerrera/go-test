@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -53,5 +54,20 @@ func Test_application_addIpToContext(t *testing.T) {
 		}
 
 		handlerToTest.ServeHTTP(httptest.NewRecorder(), req)
+	}
+}
+
+func Test_application_ipFromContext(t *testing.T) {
+	var app application
+
+	ctx := context.TODO()
+
+	ctx = context.WithValue(ctx, contextUserKey, "userip")
+
+
+	actualContextUserKey := app.ipFromContext(ctx)
+
+	if actualContextUserKey != "userip" {
+		t.Error("Got a different context user key")
 	}
 }
