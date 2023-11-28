@@ -11,6 +11,7 @@ func (app *application) routes() http.Handler {
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer)
+	mux.Use(app.addIpToContext)
 
 	// register routes
 	mux.Get("/", app.Home)
