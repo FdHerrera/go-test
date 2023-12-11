@@ -21,7 +21,7 @@ type TemplateData struct {
 
 func (app *application) render(w http.ResponseWriter, r *http.Request, t string, data *TemplateData) error {
 	// parse template
-	parsedTemplate, err := template.ParseFiles(path.Join(pathToTemplates, t))
+	parsedTemplate, err := template.ParseFiles(path.Join(pathToTemplates, t), path.Join(pathToTemplates, "baselayout.gohtml"))
 	if err != nil {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return err
