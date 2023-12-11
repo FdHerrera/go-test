@@ -17,7 +17,8 @@
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
           <hr>
-          <small>Your request came from {{.Ip}}</small>
+          <small>Your request came from {{.Ip}}</small><br>
+	  <small>From Session: {{index .Data "test"}}</small>
         </div>
       </div>
     </div>
