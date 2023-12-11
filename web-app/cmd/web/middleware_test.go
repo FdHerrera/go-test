@@ -20,8 +20,6 @@ func Test_application_addIpToContext(t *testing.T) {
 		{"", "", "hello:world", false},
 	}
 
-	var app application
-
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		val := r.Context().Value(contextUserKey)
 		if val == nil {
@@ -58,8 +56,6 @@ func Test_application_addIpToContext(t *testing.T) {
 }
 
 func Test_application_ipFromContext(t *testing.T) {
-	var app application
-
 	ctx := context.TODO()
 
 	ctx = context.WithValue(ctx, contextUserKey, "userip")
